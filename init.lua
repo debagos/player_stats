@@ -10,12 +10,12 @@ local remove_unknown_entries = true
 local stats_template = {
 	player_name = "",
 	created = 0,
-    nodes_dug = 0,
-    nodes_placed = 0,
-    items_crafted = 0,
-    died = 0,
-    chat_messages = 0,
-    joined = 0
+	nodes_dug = 0,
+	nodes_placed = 0,
+	items_crafted = 0,
+	died = 0,
+	chat_messages = 0,
+	joined = 0
 }
 
 local function get_timestamp()
@@ -142,11 +142,11 @@ end
 
 local function save_all_live_stats()
 	local ts_start = minetest.get_us_time()
-    for _, stats in pairs(online_player_stats) do
-        save_stats(stats.player_name, stats)
-    end
-    local ts_end = minetest.get_us_time()
-    log_debug("Saving all live stats took "..((ts_end - ts_start) / 1000).." ms")
+	for _, stats in pairs(online_player_stats) do
+		save_stats(stats.player_name, stats)
+	end
+	local ts_end = minetest.get_us_time()
+	log_debug("Saving all live stats took "..((ts_end - ts_start) / 1000).." ms")
 end
 
 local function mod_stat(player_or_name, key, modification)
@@ -182,16 +182,16 @@ minetest.register_on_joinplayer(function(player, last_login)
 end)
 
 minetest.register_on_dignode(function(_, _, digger)
-    mod_stat(digger, "nodes_dug", 1)
+	mod_stat(digger, "nodes_dug", 1)
 end)
 
 minetest.register_on_placenode(function(_, _, placer, _, _, _)
-    mod_stat(placer, "nodes_placed", 1)
+	mod_stat(placer, "nodes_placed", 1)
 end)
 
 minetest.register_on_craft(function(_, player, _, _)
-    mod_stat(player, "items_crafted", 1)
-    return nil
+	mod_stat(player, "items_crafted", 1)
+	return nil
 end)
 
 minetest.register_on_chat_message(function(player_name, _)
@@ -200,7 +200,7 @@ minetest.register_on_chat_message(function(player_name, _)
 end)
 
 minetest.register_on_dieplayer(function(player, _)
-    mod_stat(player, "died", 1)
+	mod_stat(player, "died", 1)
 end)
 
 minetest.register_on_leaveplayer(function(player, _)
@@ -210,8 +210,8 @@ minetest.register_on_leaveplayer(function(player, _)
 end)
 
 local function show_player_stats(player_name, params)
-    local target_player_name = params:trim()
-    if target_player_name == "" then
+	local target_player_name = params:trim()
+	if target_player_name == "" then
 		target_player_name = player_name
 	end
 	local stats = table.copy(return_player_stats(target_player_name, false))
@@ -257,5 +257,5 @@ end
 minetest.after(save_interval, save_all_live_stats_looper)
 
 minetest.register_on_shutdown(function()
-    save_all_live_stats()
+	save_all_live_stats()
 end)
